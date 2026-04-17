@@ -1,0 +1,144 @@
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import navbarLogo from "@/assets/logo-navbar.png";
+
+const navItems = [
+  { label: "About", target: "about" },
+  { label: "Services", target: "services" },
+  { label: "Why Us", target: "why-us" },
+  { label: "Contact", target: "contact" },
+];
+
+const Navbar = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollToSection = (target: string) => {
+    setMobileOpen(false);
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: target } });
+    } else {
+      const el = document.getElementById(target);
+      el?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "bg-background/98 backdrop-blur-xl shadow-[0_1px_20px_-6px_rgba(0,0,0,0.1)]"
+          : "bg-background"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between h-20 sm:h-24 lg:h-28">
+        <Link to="/" className="flex items-center group shrink-0 min-w-0">
+          <img
+            src={navbarLogo}
+            alt="B-Panacea Education"
+            className="w-[220px] sm:w-[260px] md:w-[320px] lg:w-[340px] xl:w-[380px] h-auto object-contain object-left transition-transform duration-300 group-hover:scale-[1.02]"
+          />
+        </Link>
+
+        <ul className="hidden lg:flex items-center gap-8 lg:gap-10">
+          {navItems.map((item) => (
+            <li key={item.label}>
+              <button
+                onClick={() => scrollToSection(item.target)}
+                className="relative text-sm font-semibold tracking-wide text-foreground/60 hover:text-primary transition-colors duration-300 after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-accent after:rounded-full after:transition-all after:duration-300 hover:after:w-full"
+              >
+                {item.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <div className="hidden lg:flex items-center gap-3">
+          <a
+            href="https://www.cognitoforms.com/BPanaceaLimited/BPanaceaLimitedTutorApplication"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 rounded-full border-2 border-primary/20 text-primary text-sm font-bold tracking-wide hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
+          >
+            Register for Work
+          </a>
+          <Link
+            to="/questionnaire"
+            className="px-6 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-bold tracking-wide hover:bg-dark-blue-light transition-all duration-300 shadow-lg shadow-primary/15 hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5"
+          >
+            Get Started
+          </Link>
+        </div>
+
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="lg:hidden flex flex-col gap-1.5 p-2 relative w-10 h-10 items-center justify-center"
+          aria-label="Toggle menu"
+        >
+          <span className={`block w-6 h-[2px] bg-foreground rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+          <span className={`block w-6 h-[2px] bg-foreground rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0 scale-0" : ""}`} />
+          <span className={`block w-6 h-[2px] bg-foreground rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="lg:hidden overflow-hidden bg-background border-b border-border"
+          >
+            <ul className="flex flex-col px-6 py-8 gap-5">
+              {navItems.map((item, i) => (
+                <motion.li
+                  key={item.label}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <button
+                    onClick={() => scrollToSection(item.target)}
+                    className="text-xl font-semibold text-foreground/80 hover:text-primary transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                </motion.li>
+              ))}
+              <li className="flex flex-col gap-3 mt-3">
+                <a
+                  href="https://www.cognitoforms.com/BPanaceaLimited/BPanaceaLimitedTutorApplication"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex justify-center px-7 py-3.5 rounded-full border-2 border-primary/20 text-primary font-bold text-base"
+                >
+                  Register for Work
+                </a>
+                <Link
+                  to="/questionnaire"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex justify-center px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-bold text-base shadow-lg"
+                >
+                  Get Started
+                </Link>
+              </li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+};
+
+export default Navbar;

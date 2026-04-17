@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 50% 98%;
+    --foreground: 218 30% 14%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 218 30% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 218 30% 14%;
+
+    --primary: 218 50% 20%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 30% 95%;
+    --secondary-foreground: 218 30% 14%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 218 15% 45%;
+
+    --accent: 42 75% 55%;
+    --accent-foreground: 218 30% 14%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 218 50% 20%;
+
+    --radius: 0.75rem;
+
+    --cream: 30 40% 96%;
+    --cream-dark: 40 20% 92%;
+    --orange-glow: 27 90% 58%;
+    --dark-blue: 218 50% 20%;
+    --dark-blue-light: 218 35% 30%;
+    --gold: 42 75% 55%;
+
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--dark-blue-light)));
+  }
+
+  .gold-bar {
+    @apply w-12 h-1 rounded-full;
+    background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--orange-glow)));
+  }
+
+  .card-premium {
+    @apply bg-card rounded-2xl border border-border/50 shadow-sm;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-premium:hover {
+    @apply shadow-xl border-accent/30;
+    transform: translateY(-4px);
+  }
+}
