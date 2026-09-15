@@ -79,11 +79,11 @@ const Footer = () => (
               </a>
             </li>
             <li>
-              <a href="tel:+447774587556" className="hover:text-primary-foreground/80 transition-colors">
-                +44 7774 587556
+              <a href="tel:+447459496155" className="hover:text-primary-foreground/80 transition-colors">
+                +44 7459 496155
               </a>
             </li>
-            <li>163 Brownhill Road, London, England, SE6 2BQ</li>
+            <li>Office 7435, 58 Peregrine Road, llford, IG6 3SZ</li>
           </ul>
           <div className="mt-4">
             <Link to="/privacy" className="text-xs text-primary-foreground/40 hover:text-primary-foreground/70 transition-colors underline">
