@@ -9,6 +9,7 @@ import LearningFormat from "@/components/LearningFormat";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ResultsSection from "@/components/ResultsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import GoogleReviewsSection from "@/components/GoogleReviewsSection";
 import GallerySection from "@/components/GallerySection";
 import TrustSection from "@/components/TrustSection";
 import CTASection from "@/components/CTASection";
@@ -43,6 +44,7 @@ const Index = () => {
         <WhyChooseUs />
         <ResultsSection />
         <TestimonialsSection />
+        <GoogleReviewsSection />
         <GallerySection />
         <TrustSection />
         <CTASection />
