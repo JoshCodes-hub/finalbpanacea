@@ -3,11 +3,21 @@ import { CheckCircle2, LoaderCircle, Send, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
+const LEAD_FORM_COMPLETED_KEY = "bpanacea-lead-form-completed";
+
 const inputClassName =
   "w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30";
 
+const hasCompletedLeadForm = () => {
+  try {
+    return window.localStorage.getItem(LEAD_FORM_COMPLETED_KEY) === "true";
+  } catch {
+    return false;
+  }
+};
+
 const ContactLeadForm = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(() => !hasCompletedLeadForm());
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
@@ -15,13 +25,6 @@ const ContactLeadForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
-  // Show the lead form on every visit to the homepage; dismissing it only
-  // closes it for the current page view, not future visits.
-  useEffect(() => {
-    const timer = window.setTimeout(() => setIsOpen(true), 1200);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -57,6 +60,11 @@ const ContactLeadForm = () => {
       }
 
       setSubmitted(true);
+      try {
+        window.localStorage.setItem(LEAD_FORM_COMPLETED_KEY, "true");
+      } catch {
+        // The confirmation still works if browser storage is unavailable.
+      }
     } catch {
       setError("We couldn't send your details just now. Please check your connection and try again.");
     } finally {
@@ -66,7 +74,7 @@ const ContactLeadForm = () => {
 
   return (
     <>
-      {!isOpen && (
+      {!isOpen && !hasCompletedLeadForm() && (
         <button
           type="button"
           onClick={() => setIsOpen(true)}
